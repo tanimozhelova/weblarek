@@ -98,3 +98,78 @@ Presenter - презентер содержит основную логику п
 `emit<T extends object>(event: string, data?: T): void` - инициализация события. При вызове события в метод передается название события и объект с данными, который будет использован как аргумент для вызова обработчика.  
 `trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие с передачей в него данных из второго параметра.
 
+### Данные
+
+#### Класс Products
+Хранит товары, которые можно купить в приложении.
+
+Конструктор класса не принимает параметров.
+
+Поля класса:
+`private allProducts: Product[]` - хранит массив всех товаров.
+`private activeProductId: string | null` - хранит товар, выбранный для подробного отображения.
+
+Методы класса:
+`setProducts(items: IProduct[]): void` - сохраняет массив товаров.
+`getProducts(): Product[]` - возвращает весь массив товаров.
+`getProductById(productId: string): Product | null` - возвращает товар по его id.
+`setProductById(productId: string): void` - сохраняет id выбранного товар для подробного отображения.
+`getActiveProduct(): Product | null` - возвращает товар, выбранный для подробного отображения.
+
+#### Класс Cart
+Хранит товары, выбранные покупателем для покупки.
+
+Конструктор класса не принимает параметров.
+
+Поля класса:
+`private productsInCart: Product[]` - хранит массив товаров, добавленных в корзину.
+
+Метода класса:
+`getProductInCart(): Product[]` - возвращает товары, которые находятся в корзине.
+`addProduct(product: Product): void` - добавляет товар в корзину.
+`deleteProduct(product: Product): boolean` - удаляет товар из корзины по id.
+`clearCart(): void` - очищает корзину.
+`sumPrices(): number` - возвращает стоимость всех товаров в корзине.
+`getTotalProductCount(): number` - возвращает количество товаров в корзине.
+`findProductInCart(productId: string): boolean` - проверяет наличие товара в корзине по его id.
+
+#### Класс Customer
+Хранит данные покупателя (вид оплаты, адрес, телефон, email).
+
+Конструктор класса не принимает параметров.
+
+Поля класса:
+`private payment: string | null` - хранит выбранный способ оплаты.
+`private address: string | null` - хранит адрес доставки.
+`private phone: string | null` - хранит телефон покупателя.
+`private email: string | null` - хранит email покупателя.
+
+Методы класса:
+`setCustomerData(key: CustomerDataKey, value: CustomerData[CustomerDataKey]): boolean` - сохраняет данные покупателя, обновляет только отдельное поле, остальные сохраняет.
+`getCustomerData(): CustomerData` - возвращает данные покупателя.
+`clearCustomerData(): void` - очищает данные покупателя.
+`validateCustomerData(): ValidationErrors` - валидирует данные покупателя.
+
+### Слой коммуникации
+
+### Класс ProductCatalogLoader
+Использует композицию, чтобы выполнить запрос на сервер и получить с сервера объект с массивом товаров.
+
+Поля класса: 
+`private api: IApi` - объект для выполнения запросов.
+
+Методы класса:
+`fetchProductList(): Promise<ProductApiResponse>` - делает get запрос на эндпоинт /product/ и возвращает объект, полученный от сервера, в котором находится массив товаров.
+`submitOrder(orderData: OrderRequestData, method: ApiPostMethods = "POST"): Promise<OrderResponse>` - передает на эндпоинт/order/ данные и возвращает объект, подтверждающий покупку на определенную сумму.
+
+
+
+
+
+
+
+
+
+
+
+
