@@ -1,11 +1,12 @@
 export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
+export type TBuyerErrors = Partial<Record<keyof IBuyer, string>>;
 
 export interface IApi {
     get<T extends object>(uri: string): Promise<T>;
     post<T extends object>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
 }
 
-export type PaymentMethod = 'credit_card' | 'pay_pal' | 'bank_transfer' | 'cash' | null;
+export type TPayment = 'card' | 'cash' | '';
 
 export interface IProduct {
   id: string;
@@ -17,22 +18,27 @@ export interface IProduct {
 }
 
 export interface IBuyer {
-  payment: PaymentMethod;
+  payment: TPayment;
   email: string;
   phone: string;
   address: string;
 }
 
-export interface ProductApiResponse {
-  products: IProduct[];
+export interface ICatalogLoader {
+  fetchProductList(): Promise<ProductListResponse>;
+  submitOrder(data: OrderRequest, method?: ApiPostMethods): Promise<OrderResponse>;
 }
 
-export interface OrderRequestData {
-  products: { id: string; quantity: number }[];
-  buyer: IBuyer;
+export interface ProductListResponse {
+  total: number;
+  items: IProduct[];
+}
+
+export interface OrderRequest extends IBuyer {
+  items: string[];
 }
 
 export interface OrderResponse {
-  confirmation: string;
+  id: string;
   total: number;
 }

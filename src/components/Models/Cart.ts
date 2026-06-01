@@ -1,18 +1,20 @@
+import { IProduct } from '../../types/index'
+
 export class Cart {
-    private productsInCart: Product[] = [];
+    private productsInCart: IProduct[] = [];
 
     constructor() {
     }
 
-    getProductInCart(): Product[] {
+    getProductInCart(): IProduct[] {
         return this.productsInCart;
     }
 
-    addProduct(product: Product): void {
+    addProduct(product: IProduct): void {
         this.productsInCart.push(product);
     }
 
-    deleteProduct(product: Product): boolean {
+    deleteProduct(product: IProduct): boolean {
         const index = this.productsInCart.findIndex((item) => item.id === product.id);
           if (index !== -1) {
           this.productsInCart.splice(index, 1);

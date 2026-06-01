@@ -116,7 +116,7 @@ Presenter - презентер содержит основную логику п
 `setProductById(productId: string): void` - сохраняет id выбранного товар для подробного отображения.
 `getActiveProduct(): Product | null` - возвращает товар, выбранный для подробного отображения.
 
-#### Класс Cart
+#### Класс Card
 Хранит товары, выбранные покупателем для покупки.
 
 Конструктор класса не принимает параметров.
@@ -159,8 +159,8 @@ Presenter - презентер содержит основную логику п
 `private api: IApi` - объект для выполнения запросов.
 
 Методы класса:
-`fetchProductList(): Promise<ProductApiResponse>` - делает get запрос на эндпоинт /product/ и возвращает объект, полученный от сервера, в котором находится массив товаров.
-`submitOrder(orderData: OrderRequestData, method: ApiPostMethods = "POST"): Promise<OrderResponse>` - передает на эндпоинт/order/ данные и возвращает объект, подтверждающий покупку на определенную сумму.
+`fetchProductList(): Promise<ProductListResponse>` - делает get запрос на эндпоинт /product/ и возвращает объект, полученный от сервера, в котором находится массив товаров.
+`submitOrder(Data: OrderRequest, method: ApiPostMethods = "POST"): Promise<OrderResponse>` - передает на эндпоинт/order/ данные и возвращает объект, подтверждающий покупку на определенную сумму.
 
 
 
