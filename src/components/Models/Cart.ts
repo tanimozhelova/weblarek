@@ -14,13 +14,11 @@ export class Cart {
         this.productsInCart.push(product);
     }
 
-    deleteProduct(product: IProduct): boolean {
-        const index = this.productsInCart.findIndex((item) => item.id === product.id);
-          if (index !== -1) {
-          this.productsInCart.splice(index, 1);
-          return true;
-        }
-        return false;
+    deleteProduct(product: IProduct): void {
+       const index = this.productsInCart.findIndex((item) => item.id === product.id);
+       if (index !== -1) {
+       this.productsInCart.splice(index, 1);
+       }
     }
 
     clearCart(): void {

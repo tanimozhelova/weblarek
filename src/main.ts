@@ -1,4 +1,4 @@
-import "./scss/styles";
+import './scss/styles.scss';
 import { Products } from './components/Models/Products';
 import { Cart } from './components/Models/Cart';
 import { Customer } from './components/Models/Customer';
@@ -6,7 +6,7 @@ import { ProductCatalogLoader } from './components/Services/ProductCatalogLoader
 import { apiProducts } from './utils/data';
 import { Api } from './components/base/Api';
 import { API_URL } from './utils/constants';
-import { ProductListResponse, OrderRequest, OrderResponse } from './types';
+import { OrderRequest } from './types';
 
 const productsModel = new Products();
 productsModel.setProducts(apiProducts.items);
@@ -66,25 +66,43 @@ console.log(errorsFull);
 const data = customerModel.getCustomerData();
 console.log('Данные после обновления:', data);
 
+
+const selectedItemsIds = [
+  '854cef69-976d-4c2a-a18c-2aa45046c390',
+  'c101ab44-ed99-4a54-990d-47aa2bb4e7d9'
+];
+
+
+const pricesMap = apiProducts.items.reduce((acc, product) => {
+  if (product.price !== null) {
+    acc[product.id] = product.price;
+  }
+  return acc;
+}, {} as Record<string, number>);
+
+const totalSum = selectedItemsIds.reduce((sum, id) => {
+  const price = pricesMap[id] || 0;
+  return sum + price;
+}, 0);
+
+
 const api = new Api(API_URL);
 const loader = new ProductCatalogLoader(api);
 
 loader.fetchProductList()
-  .then(response => {
-    console.log('Список товаров с сервера:', response);
+  .then((response) => {
+    productsModel.setProducts(response.items);
+    console.log('Каталог с сервера:', productsModel.getProducts());
   })
-  .catch(error => {
-    console.error('Ошибка при загрузке каталога:', error);
-  });
 
 const testOrder: OrderRequest = {
-  items: ['854cef69-976d-4c2a-a18c-2aa45046c390',
-          'c101ab44-ed99-4a54-990d-47aa2bb4e7d9'
+  items: ['854cef69-976d-4c2a-a18c-2aa45046c390','c101ab44-ed99-4a54-990d-47aa2bb4e7d9'
   ],
   payment: 'card',
   email: 'test@example.com',
   phone: '+71234567890',
-  address: 'ул. Новый Арбат, д. 1'
+  address: 'ул. Новый Арбат, д. 1',
+  total: totalSum
 };
 
 loader.submitOrder(testOrder)

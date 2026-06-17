@@ -28,6 +28,7 @@ export class Api {
     }
 
     post<T extends object>(uri: string, data: object, method: ApiPostMethods = 'POST') {
+        console.log('Отправляем данные:', data);
         return fetch(this.baseUrl + uri, {
             ...this.options,
             method,

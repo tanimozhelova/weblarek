@@ -1,7 +1,7 @@
 import { IBuyer, TPayment, TBuyerErrors } from '../../types/index'
 
 export class Customer {
-    private payment: TPayment = '';
+    private payment: TPayment | '' = '';
     private address: string = '';
     private phone: string = '';
     private email: string = '';
@@ -36,10 +36,10 @@ export class Customer {
     validateCustomerData(): TBuyerErrors {
       const errors: TBuyerErrors = {};
 
-      if (!this.payment?.trim()) errors.payment = 'Укажите способ оплаты';
-      if (!this.address?.trim()) errors.address = 'Укажите адрес';
-      if (!this.phone?.trim()) errors.phone = 'Укажите телефон';
-      if (!this.email?.trim()) errors.email = 'Укажите емейл';
+      if (!this.payment.trim()) errors.payment = 'Укажите способ оплаты';
+      if (!this.address.trim()) errors.address = 'Укажите адрес';
+      if (!this.phone.trim()) errors.phone = 'Укажите телефон';
+      if (!this.email.trim()) errors.email = 'Укажите емейл';
 
       return errors;
     }

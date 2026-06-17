@@ -1,6 +1,4 @@
-import { ApiPostMethods, ICatalogLoader, IApi, OrderRequest,
-         OrderResponse, ProductListResponse } from "../../types";
-import { API_ENDPOINTS } from "../../utils/constants";
+import { ICatalogLoader, IApi, OrderRequest, OrderResponse, ProductListResponse } from "../../types";
 
 export class ProductCatalogLoader implements ICatalogLoader {
     private api: IApi;
@@ -10,10 +8,10 @@ export class ProductCatalogLoader implements ICatalogLoader {
     }
 
     fetchProductList(): Promise<ProductListResponse> {
-      return this.api.get<ProductListResponse>(API_ENDPOINTS.PRODUCTS);
+      return this.api.get<ProductListResponse>('/product/');
     }
 
-    submitOrder(data: OrderRequest, method: ApiPostMethods = 'POST'): Promise<OrderResponse> {
-      return this.api.post<OrderResponse>(API_ENDPOINTS.ORDER, data, method);
+    submitOrder(data: OrderRequest): Promise<OrderResponse> {
+      return this.api.post<OrderResponse>('/order/', data);
     }
 }

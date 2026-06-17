@@ -1,16 +1,18 @@
 
+import { IProduct } from '../../types/index';
 export class Products { 
-    private allProducts: Product[] = [];
+    private allProducts: IProduct[] = [];
     private activeProductId: string | null = null;
 
     constructor() {   
     }
 
     setProducts(items: IProduct[]): void {
+      console.log('Товары установлены:', this.allProducts);
       this.allProducts = items;
     }
 
-    getProducts(): Product[] {
+    getProducts(): IProduct[] {
       return this.allProducts;
     }
 
@@ -22,11 +24,11 @@ export class Products {
       }
     }
 
-    getProductById(productId: string): Product | null {
+    getProductById(productId: string): IProduct | null {
     return this.allProducts.find((product) => product.id === productId) ?? null;
     }
 
-    getActiveProduct(): Product | null {
+    getActiveProduct(): IProduct | null {
     if (this.activeProductId) {
       return this.getProductById(this.activeProductId);
     }
