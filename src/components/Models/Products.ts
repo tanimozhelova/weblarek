@@ -8,7 +8,6 @@ export class Products {
     }
 
     setProducts(items: IProduct[]): void {
-      console.log('Товары установлены:', this.allProducts);
       this.allProducts = items;
     }
 

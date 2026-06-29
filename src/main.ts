@@ -33,10 +33,10 @@ console.log('Общая сумма:', cartModel.sumPrices());
 console.log(`Есть ли товар ${firstProductId}:`, cartModel.findProductInCart(firstProductId));
 
 const productToRemove = apiProducts.items[0];
-const success = cartModel.deleteProduct(productToRemove);
-console.log(`Удаление товара ${productToRemove.id}:`, success);
-console.log('Корзина после удаления:', cartModel.getProductInCart());
-console.log('Общая сумма после удаления:', cartModel.sumPrices());
+
+cartModel.deleteProduct(productToRemove);/*начало*/
+const isProductInCart = cartModel.findProductInCart(productToRemove.id);
+console.log(`Товар с id ${productToRemove.id} в корзине после удаления:`, isProductInCart);
 
 cartModel.clearCart();
 console.log('Корзина после очистки:', cartModel.getProductInCart());
@@ -47,14 +47,12 @@ const customerModel = new Customer();
 console.log('Изначальные данные:', customerModel.getCustomerData());
 
 console.log('Проверка с пустыми данными:');
-const errorsEmpty = customerModel.validateCustomerData();
-console.log(errorsEmpty);
 
-const result1 = customerModel.setField('payment', 'Карта');
-console.log('Обновление payment:', result1);
+customerModel.setField('payment', 'card');
+console.log('Обновленные данные после payment:', customerModel.getCustomerData());
 
-const result2 = customerModel.setField('email', 'test@example.com')
-console.log('Обновление email:', result2);
+customerModel.setField('email', 'test@example.com');
+console.log('Обновленные данные после email:', customerModel.getCustomerData());
 
 customerModel.setField('address', 'ул. Новый Арбат, д. 1');
 customerModel.setField('phone', '+71234567890');
@@ -72,18 +70,15 @@ const selectedItemsIds = [
   'c101ab44-ed99-4a54-990d-47aa2bb4e7d9'
 ];
 
-
-const pricesMap = apiProducts.items.reduce((acc, product) => {
-  if (product.price !== null) {
-    acc[product.id] = product.price;
+selectedItemsIds.forEach(id => {
+  const product = productsModel.getProductById(id);
+  if (product) {
+    cartModel.addProduct(product);
   }
-  return acc;
-}, {} as Record<string, number>);
+});
 
-const totalSum = selectedItemsIds.reduce((sum, id) => {
-  const price = pricesMap[id] || 0;
-  return sum + price;
-}, 0);
+const totalSum = cartModel.sumPrices();
+console.log('Итоговая сумма выбранных товаров:', totalSum);
 
 
 const api = new Api(API_URL);
@@ -94,6 +89,9 @@ loader.fetchProductList()
     productsModel.setProducts(response.items);
     console.log('Каталог с сервера:', productsModel.getProducts());
   })
+  .catch((error) => {
+    console.error('Ошибка при получении списка продуктов:', error);
+  });
 
 const testOrder: OrderRequest = {
   items: ['854cef69-976d-4c2a-a18c-2aa45046c390','c101ab44-ed99-4a54-990d-47aa2bb4e7d9'

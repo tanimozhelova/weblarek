@@ -116,7 +116,7 @@ Presenter - презентер содержит основную логику п
 `setProductById(productId: string): void` - сохраняет id выбранного товар для подробного отображения.
 `getActiveProduct(): Product | null` - возвращает товар, выбранный для подробного отображения.
 
-#### Класс Card
+#### Класс Cart
 Хранит товары, выбранные покупателем для покупки.
 
 Конструктор класса не принимает параметров.
@@ -127,7 +127,7 @@ Presenter - презентер содержит основную логику п
 Метода класса:
 `getProductInCart(): Product[]` - возвращает товары, которые находятся в корзине.
 `addProduct(product: Product): void` - добавляет товар в корзину.
-`deleteProduct(product: Product): boolean` - удаляет товар из корзины по id.
+`deleteProduct(product: Product): void` - удаляет указанный товар из корзины по объекту Product.
 `clearCart(): void` - очищает корзину.
 `sumPrices(): number` - возвращает стоимость всех товаров в корзине.
 `getTotalProductCount(): number` - возвращает количество товаров в корзине.
